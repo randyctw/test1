@@ -1,0 +1,20 @@
+prometheus.scrape "goblin_active_users" {
+        targets    = [{"__address__" = "goblin-exporter:9877"}]
+        forward_to = [prometheus.remote_write.ctw_grafana_net.receiver]
+    scrape_interval = "60s"
+    metrics_path = "/metrics"
+    scheme = "http"
+}
+
+prometheus.remote_write "ctw_grafana_net" {
+        endpoint {
+                url = "https://prometheus-prod-18-prod-ap-southeast-0.grafana.net/api/prom/push"
+                http_client_config {
+                        basic_auth {
+                                username = "662993"
+                                password = "eyJrIjoiYmY2NjNiNjk0YWE2MzFjODJmYjY2ZGExZmViMjgyODM5NGI3MmVkNyIsIm4iOiJncmFmYW5hLWV4cG9ydGVyLWFnZW50IiwiaWQiOjczMTkxMn0="
+                        }
+                }
+        }
+}
+
